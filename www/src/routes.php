@@ -1,10 +1,9 @@
 <?php
 // Routes
-
-$app->get('/[{name}]', function ($request, $response, $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
+$app->get('/recipes', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    /** @var \Slim\Container $this */
+    /** @var \Bbc\Features\Recipe $recipeRepository */
+    $recipeRepository = $this->get('recipe');
+    $recipes = $recipeRepository->getAllItems();
+    return $response->withJson($recipes);
 });
