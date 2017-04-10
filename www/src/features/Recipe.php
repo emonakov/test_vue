@@ -33,6 +33,10 @@ class Recipe
      */
     protected $filters;
 
+    protected $limit;
+
+    protected $offset;
+
     public function __construct(\PDO $db)
     {
         $this->db = $db;
@@ -66,6 +70,14 @@ class Recipe
      */
     public function addFilter(array $filter = [])
     {
+        if (isset($filter['limit'])) {
+            $this->limit = $filter['limit'];
+            unset($filter['limit']);
+        }
+        if (isset($filter['offset'])) {
+            $this->offset = $filter['offset'];
+            unset($filter['offset']);
+        }
         foreach ($filter as $table => $params) {
             $queryConcat = [];
             foreach ($params['field'] as $index => $param) {
@@ -102,7 +114,7 @@ class Recipe
     {
         $recipeId = $recipe->getData('id');
         $q = 'SELECT gallery_table.image FROM gallery as gallery_table WHERE recipe_id = :recipe_id';
-        $stmt = $this->prepareSqlStatement($q, [':recipe_id' => $recipeId]);
+        $stmt = $this->prepareSqlStatement($q, [':recipe_id' => $recipeId], false);
         $gallery = $stmt->fetchAll();
         $recipe->setData(['gallery' => $gallery]);
         return $this;
@@ -118,10 +130,16 @@ class Recipe
     {
         $recipeId = $recipe->getData('id');
         $q = 'SELECT ingridient_table.name, ingridient_table.qty, ingridient_table.qty_type  FROM ingridient as ingridient_table WHERE recipe_id = :recipe_id';
-        $stmt = $this->prepareSqlStatement($q, [':recipe_id' => $recipeId]);
+        $stmt = $this->prepareSqlStatement($q, [':recipe_id' => $recipeId], false);
         $gallery = $stmt->fetchAll();
         $recipe->setData(['ingredients' => $gallery]);
         return $this;
+    }
+
+    public function getTotal()
+    {
+        $query = 'SELECT count(*) FROM recipe as main_table';
+        return $this->db->query($query)->fetchColumn();
     }
 
     /**
@@ -129,11 +147,20 @@ class Recipe
      *
      * @param $query
      * @param array $params
+     * @param bool $main
      * @return \PDOStatement
      */
-    protected function prepareSqlStatement($query, $params = [])
+    protected function prepareSqlStatement($query, $params = [], $main = true)
     {
-        $query .= ' GROUP BY id';
+        if ($main) {
+            $query .= ' GROUP BY id';
+            if ($this->limit) {
+                $query .= " LIMIT {$this->limit}";
+                if ($this->offset) {
+                    $query .= " OFFSET {$this->offset}";
+                }
+            }
+        }
         $stmt = $this->db->prepare($query);
         foreach ($params as $key=>$param) {
             $stmt->bindParam($key, $param);
@@ -152,6 +179,7 @@ class Recipe
         $this->query .= " WHERE ";
         $queryParts = [];
         foreach ($this->filters as $filter) {
+            if (empty($filter)) continue;
             $queryParts[] = '(' . implode(' OR ', $filter) . ')';
         }
         $this->query .= implode(' AND ', $queryParts);

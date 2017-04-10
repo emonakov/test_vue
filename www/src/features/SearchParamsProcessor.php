@@ -14,7 +14,7 @@ class SearchParamsProcessor
      *
      * @var array
      */
-    protected $validTables = ['main_table', 'ingridient_table'];
+    protected $validKeys = ['main_table', 'ingridient_table', 'limit', 'offset'];
 
     /**
      * List of valid param names
@@ -34,6 +34,10 @@ class SearchParamsProcessor
         $data = [];
         if ($this->validParams($params)) {
             foreach ($params as $key=>$param) {
+                if (in_array($key, ['limit', 'offset'])) {
+                    $data[$key] = $params[$key];
+                    continue;
+                }
                 $fields = explode(',', $param['field']);
                 $values = explode(',', $param['value']);
                 $ops = isset($param['op']) ? explode(',', $param['op']) : ['='];
@@ -55,7 +59,7 @@ class SearchParamsProcessor
      */
     protected function validParams($params) {
         foreach ($params as $key=>$param) {
-            if (!in_array($key, $this->validTables)) {
+            if (!in_array($key, $this->validKeys)) {
                 return false;
             }
             foreach ($param as $paramKey => $value) {

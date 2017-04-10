@@ -9,7 +9,8 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
     $recipeRepository = $this->get('recipe');
     $recipeRepository->addFilter($params);
     $recipes = $recipeRepository->getAllItems();
-    return $response->withJson($recipes);
+    $total = $recipeRepository->getTotal();
+    return $response->withJson(['items' => $recipes, 'limit' => $params['limit'], 'offset' => $params['offset'], 'total' => $total]);
 });
 
 // Endpoint for single recipe
