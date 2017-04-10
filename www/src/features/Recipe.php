@@ -60,7 +60,7 @@ class Recipe
         foreach ($items as $item) {
             $this->items[$item['id']] = new Model\Recipe($this, $item);
         }
-        return $this->items;
+        return (array)$this->items;
     }
 
     /**
