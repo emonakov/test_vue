@@ -22,3 +22,8 @@ $app->get('/recipe/{id}', function (\Slim\Http\Request $request, \Slim\Http\Resp
     $recipe = $recipeRepository->load($recipeId);
     return $response->withJson($recipe);
 });
+
+// Endpoint for single recipe
+$app->get('/', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    return $this->renderer->render($response, 'index.phtml', $args);
+});

@@ -17,7 +17,10 @@
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
         "zendframework/zend-debug": "^2.5",
-        "zendframework/zend-escaper": "^2.5"
+        "zendframework/zend-escaper": "^2.5",
+        "fxp/composer-asset-plugin": "^1.3",
+        "npm-asset/vue": "^2.2",
+        "bower-asset/bootstrap-sass": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.8 < 6.0"
@@ -35,6 +38,11 @@
     "scripts": {
         "start": "php -S 0.0.0.0:8080 -t public public/index.php",
         "test": "phpunit"
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "bower-asset-library": "public/vendor",
+            "npm-asset-library": "public/vendor"
+        }
     }
-
 }

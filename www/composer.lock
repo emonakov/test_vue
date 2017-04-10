@@ -4,8 +4,83 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "62ec959b624ecf0fbc9f100139e2abfc",
+    "content-hash": "0d15f9eeabdd64476abba81550fb6aeb",
     "packages": [
+        {
+            "name": "bower-asset/bootstrap-sass",
+            "version": "v3.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/bootstrap-sass.git",
+                "reference": "5d6b2ebba0c2a5885ce2f0e01e9218db3d3b5e47"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/bootstrap-sass/zipball/5d6b2ebba0c2a5885ce2f0e01e9218db3d3b5e47",
+                "reference": "5d6b2ebba0c2a5885ce2f0e01e9218db3d3b5e47",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.9.1,<4.0"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "assets/stylesheets/_bootstrap.scss",
+                    "assets/javascripts/bootstrap.js"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "lib",
+                    "tasks",
+                    "templates",
+                    "test",
+                    "*.gemspec",
+                    "Rakefile",
+                    "Gemfile"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "bootstrap-sass is a Sass-powered version of Bootstrap 3, ready to drop right into your Sass powered applications.",
+            "keywords": [
+                "bootstrap",
+                "sass",
+                "twbs"
+            ]
+        },
+        {
+            "name": "bower-asset/jquery",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jquery/jquery-dist.git",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jquery/jquery-dist/zipball/77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "reference": "77d2a51d0520d2ee44173afdf4e40a9201f5964e",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "dist/jquery.js",
+                "bower-asset-ignore": [
+                    "package.json"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "keywords": [
+                "browser",
+                "javascript",
+                "jquery",
+                "library"
+            ]
+        },
         {
             "name": "container-interop/container-interop",
             "version": "1.2.0",
@@ -36,6 +111,65 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "fxp/composer-asset-plugin",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fxpio/composer-asset-plugin.git",
+                "reference": "0bfdd307d2cddbc42c634b14247f3f3a8525b836"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fxpio/composer-asset-plugin/zipball/0bfdd307d2cddbc42c634b14247f3f3a8525b836",
+                "reference": "0bfdd307d2cddbc42c634b14247f3f3a8525b836",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "composer/composer": "^1.4.0"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "Fxp\\Composer\\AssetPlugin\\FxpAssetPlugin",
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Fxp\\Composer\\AssetPlugin\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "François Pluchino",
+                    "email": "francois.pluchino@gmail.com"
+                }
+            ],
+            "description": "NPM/Bower Dependency Manager for Composer",
+            "homepage": "https://github.com/fxpio/composer-asset-plugin",
+            "keywords": [
+                "asset",
+                "bower",
+                "composer",
+                "dependency manager",
+                "nodejs",
+                "npm",
+                "package"
+            ],
+            "time": "2017-04-09T11:49:10+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -157,6 +291,133 @@
                 "routing"
             ],
             "time": "2017-01-19T11:35:12+00:00"
+        },
+        {
+            "name": "npm-asset/vue",
+            "version": "2.2.6",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/vue/-/vue-2.2.6.tgz",
+                "reference": null,
+                "shasum": "451714b394dd6d4eae7b773c40c2034a59621aed"
+            },
+            "require-dev": {
+                "npm-asset/babel-core": ">=6.9.0,<7.0.0",
+                "npm-asset/babel-eslint": ">=7.1.0,<8.0.0",
+                "npm-asset/babel-helper-vue-jsx-merge-props": ">=2.0.2,<3.0.0",
+                "npm-asset/babel-loader": ">=6.2.4,<7.0.0",
+                "npm-asset/babel-plugin-istanbul": ">=4.0.0,<5.0.0",
+                "npm-asset/babel-plugin-syntax-dynamic-import": ">=6.18.0,<7.0.0",
+                "npm-asset/babel-plugin-syntax-jsx": ">=6.18.0,<7.0.0",
+                "npm-asset/babel-plugin-transform-vue-jsx": ">=3.2.0,<4.0.0",
+                "npm-asset/babel-preset-es2015": ">=6.9.0,<7.0.0",
+                "npm-asset/babel-preset-flow-vue": ">=1.0.0,<2.0.0",
+                "npm-asset/buble": ">=0.15.2,<0.16.0",
+                "npm-asset/chromedriver": ">=2.21.2,<3.0.0",
+                "npm-asset/codecov.io": ">=0.1.6,<0.2.0",
+                "npm-asset/cross-spawn": ">=5.0.1,<6.0.0",
+                "npm-asset/de-indent": ">=1.0.2,<2.0.0",
+                "npm-asset/es6-promise": ">=4.0.5,<5.0.0",
+                "npm-asset/eslint": ">=3.10.1,<4.0.0",
+                "npm-asset/eslint-config-vue": ">=2.0.1,<3.0.0",
+                "npm-asset/eslint-loader": ">=1.3.0,<2.0.0",
+                "npm-asset/eslint-plugin-flowtype": ">=2.16.0,<3.0.0",
+                "npm-asset/eslint-plugin-jasmine": ">=2.1.0,<3.0.0",
+                "npm-asset/eslint-plugin-vue": ">=2.0.0,<3.0.0",
+                "npm-asset/flow-bin": ">=0.39.0,<0.40.0",
+                "npm-asset/he": ">=1.1.0,<2.0.0",
+                "npm-asset/http-server": ">=0.9.0,<0.10.0",
+                "npm-asset/jasmine": ">=2.5.2,<3.0.0",
+                "npm-asset/jasmine-core": ">=2.5.2,<3.0.0",
+                "npm-asset/karma": ">=1.1.0,<2.0.0",
+                "npm-asset/karma-chrome-launcher": ">=2.0.0,<3.0.0",
+                "npm-asset/karma-coverage": ">=1.0.0,<2.0.0",
+                "npm-asset/karma-firefox-launcher": ">=1.0.0,<2.0.0",
+                "npm-asset/karma-jasmine": ">=1.0.2,<2.0.0",
+                "npm-asset/karma-mocha-reporter": ">=2.0.4,<3.0.0",
+                "npm-asset/karma-phantomjs-launcher": ">=1.0.0,<2.0.0",
+                "npm-asset/karma-safari-launcher": ">=1.0.0,<2.0.0",
+                "npm-asset/karma-sauce-launcher": ">=1.0.0,<2.0.0",
+                "npm-asset/karma-sourcemap-loader": ">=0.3.0,<0.4.0",
+                "npm-asset/karma-webpack": ">=2.0.1,<3.0.0",
+                "npm-asset/lodash": ">=4.17.1,<5.0.0",
+                "npm-asset/nightwatch": ">=0.9.9,<0.10.0",
+                "npm-asset/nightwatch-helpers": ">=1.2.0,<2.0.0",
+                "npm-asset/phantomjs-prebuilt": ">=2.1.1,<3.0.0",
+                "npm-asset/resolve": ">=1.2.0,<2.0.0",
+                "npm-asset/rollup": ">=0.41.4,<0.42.0",
+                "npm-asset/rollup-plugin-alias": ">=1.2.0,<2.0.0",
+                "npm-asset/rollup-plugin-babel": ">=2.4.0,<3.0.0",
+                "npm-asset/rollup-plugin-buble": ">=0.15.0,<0.16.0",
+                "npm-asset/rollup-plugin-flow-no-whitespace": ">=1.0.0,<2.0.0",
+                "npm-asset/rollup-plugin-replace": ">=1.1.0,<2.0.0",
+                "npm-asset/rollup-watch": ">=3.2.2,<4.0.0",
+                "npm-asset/selenium-server": ">=2.53.1,<3.0.0",
+                "npm-asset/typescript": ">=2.1.6,<3.0.0",
+                "npm-asset/uglify-js": ">=2.6.2,<3.0.0",
+                "npm-asset/vue-ssr-html-stream": ">=2.1.0,<3.0.0",
+                "npm-asset/vue-ssr-webpack-plugin": ">=1.0.0,<2.0.0",
+                "npm-asset/webpack": ">=2.2.0,<3.0.0",
+                "npm-asset/weex-js-runtime": ">=0.17.0-alpha4,<0.18.0",
+                "npm-asset/weex-vdom-tester": ">=0.1.4,<0.2.0"
+            },
+            "type": "npm-asset-library",
+            "extra": {
+                "npm-asset-bugs": {
+                    "url": "https://github.com/vuejs/vue/issues"
+                },
+                "npm-asset-files": [
+                    "src",
+                    "dist/*.js",
+                    "types/*.d.ts"
+                ],
+                "npm-asset-main": "dist/vue.runtime.common.js",
+                "npm-asset-directories": [],
+                "npm-asset-repository": {
+                    "type": "git",
+                    "url": "git+https://github.com/vuejs/vue.git"
+                },
+                "npm-asset-scripts": {
+                    "dev": "rollup -w -c build/config.js --environment TARGET:web-full-dev",
+                    "dev:cjs": "rollup -w -c build/config.js --environment TARGET:web-runtime-cjs",
+                    "dev:test": "karma start build/karma.dev.config.js",
+                    "dev:ssr": "rollup -w -c build/config.js --environment TARGET:web-server-renderer",
+                    "dev:compiler": "rollup -w -c build/config.js --environment TARGET:web-compiler ",
+                    "dev:weex": "rollup -w -c build/config.js --environment TARGET:weex-framework ",
+                    "dev:weex:compiler": "rollup -w -c build/config.js --environment TARGET:weex-compiler ",
+                    "build": "node build/build.js",
+                    "build:ssr": "npm run build -- vue.runtime.common.js,vue-server-renderer",
+                    "build:weex": "npm run build -- weex-vue-framework,weex-template-compiler",
+                    "test": "npm run lint && flow check && npm run test:types && npm run test:cover && npm run test:e2e -- --env phantomjs && npm run test:ssr && npm run test:weex",
+                    "test:unit": "karma start build/karma.unit.config.js",
+                    "test:cover": "karma start build/karma.cover.config.js",
+                    "test:e2e": "npm run build -- vue.min.js && node test/e2e/runner.js",
+                    "test:weex": "npm run build:weex && jasmine JASMINE_CONFIG_PATH=test/weex/jasmine.json",
+                    "test:ssr": "npm run build:ssr && jasmine JASMINE_CONFIG_PATH=test/ssr/jasmine.json",
+                    "test:sauce": "npm run sauce -- 0 && npm run sauce -- 1 && npm run sauce -- 2",
+                    "test:types": "tsc -p ./types/test/tsconfig.json",
+                    "lint": "eslint src build test",
+                    "flow": "flow check",
+                    "sauce": "karma start build/karma.sauce.config.js",
+                    "bench:ssr": "npm run build:ssr && node benchmarks/ssr/renderToString.js && node benchmarks/ssr/renderToStream.js",
+                    "release": "bash build/release.sh",
+                    "release:weex": "bash build/release-weex.sh",
+                    "install:hooks": "ln -fs ../../build/git-hooks/pre-commit .git/hooks/pre-commit"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Evan You"
+                }
+            ],
+            "description": "Reactive, component-oriented view layer for modern web interfaces.",
+            "homepage": "https://github.com/vuejs/vue#readme",
+            "keywords": [
+                "vue"
+            ]
         },
         {
             "name": "pimple/pimple",

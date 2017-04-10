@@ -2,3 +2,7 @@
 /www/logs/*
 !/www/logs/README.md
 .idea/
+/www/public/vendor/
+www/public/css/style.css
+www/public/css/layout.css
+www/.sass-cache
