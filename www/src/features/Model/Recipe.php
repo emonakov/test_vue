@@ -10,12 +10,18 @@ class Recipe implements \JsonSerializable
     protected $_data;
 
     /**
+     * @var \Bbc\Features\Recipe
+     */
+    protected $repository;
+
+    /**
      * Recipe constructor.
      *
      * @param array $data
      */
-    public function __construct(array $data = [])
+    public function __construct(\Bbc\Features\Recipe $recipeRepository, array $data = [])
     {
+        $this->repository = $recipeRepository;
         $this->setData($data);
     }
 
@@ -63,6 +69,9 @@ class Recipe implements \JsonSerializable
      */
     public function getGallery()
     {
+        if (!isset($this->_data['gallery'])) {
+            $this->repository->addGalleryData($this);
+        }
         return $this->_data['gallery'];
     }
 
@@ -73,6 +82,9 @@ class Recipe implements \JsonSerializable
      */
     public function getIngredients()
     {
+        if (!isset($this->_data['ingredients'])) {
+            $this->repository->addIngredientsData($this);
+        }
         return $this->_data['ingredients'];
     }
 
@@ -83,6 +95,8 @@ class Recipe implements \JsonSerializable
      */
     function jsonSerialize()
     {
+        $this->getGallery();
+        $this->getIngredients();
         return $this->_data;
     }
 }

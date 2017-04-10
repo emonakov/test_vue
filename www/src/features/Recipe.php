@@ -26,10 +26,19 @@ class Recipe
      */
     protected $params;
 
+    /**
+     * List of filter groups
+     *
+     * @var array
+     */
+    protected $filters;
+
     public function __construct(\PDO $db)
     {
         $this->db = $db;
-        $this->query = 'SELECT main_table.* FROM recipe as main_table';
+        // initial query with joined ingredients' data
+        $this->query = 'SELECT main_table.* FROM recipe as main_table 
+          LEFT JOIN ingridient as ingridient_table ON ingridient_table.recipe_id = main_table.id';
     }
 
     /**
@@ -39,25 +48,30 @@ class Recipe
      */
     public function getAllItems()
     {
+        if (!empty($this->filters)) {
+            $this->applyFilters();
+        }
         $stmt = $this->prepareSqlStatement($this->query, $this->params);
         $items = $stmt->fetchAll();
         foreach ($items as $item) {
-            $this->items[$item['id']] = new Model\Recipe($item);
-            $this->addGalleryData($this->items[$item['id']]);
-            $this->addIngredientsData($this->items[$item['id']]);
+            $this->items[$item['id']] = new Model\Recipe($this, $item);
         }
         return $this->items;
     }
 
+    /**
+     * Adds filters to main query
+     *
+     * @param array $filter
+     */
     public function addFilter(array $filter = [])
     {
-        $filters = [];
-        foreach ($filter as $key => $item) {
-            if (is_array($item)) {
-
-            } else {
-                $filters[] = ":$key";
+        foreach ($filter as $table => $params) {
+            $queryConcat = [];
+            foreach ($params['field'] as $index => $param) {
+                $queryConcat[] = "$table.$param {$params['op'][$index]} '{$params['value'][$index]}'";
             }
+            $this->filters[$table] = $queryConcat;
         }
     }
 
@@ -73,9 +87,7 @@ class Recipe
             $q = 'SELECT main_table.* FROM recipe as main_table WHERE id=:id';
             $stmt = $stmt = $this->prepareSqlStatement($q, [':id' => $id]);
             $item = $stmt->fetch();
-            $this->items[$id] = new Model\Recipe($item);
-            $this->addGalleryData($this->items[$id]);
-            $this->addIngredientsData($this->items[$id]);
+            $this->items[$id] = new Model\Recipe($this, $item);
         }
         return $this->items[$id];
     }
@@ -121,11 +133,28 @@ class Recipe
      */
     protected function prepareSqlStatement($query, $params = [])
     {
+        $query .= ' GROUP BY id';
         $stmt = $this->db->prepare($query);
         foreach ($params as $key=>$param) {
             $stmt->bindParam($key, $param);
         }
         $stmt->execute();
         return $stmt;
+    }
+
+    /**
+     * Prepares query with applied filters
+     *
+     * @return $this
+     */
+    protected function applyFilters()
+    {
+        $this->query .= " WHERE ";
+        $queryParts = [];
+        foreach ($this->filters as $filter) {
+            $queryParts[] = '(' . implode(' OR ', $filter) . ')';
+        }
+        $this->query .= implode(' AND ', $queryParts);
+        return $this;
     }
 }

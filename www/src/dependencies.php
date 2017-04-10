@@ -28,6 +28,12 @@ $container['db'] = function (\Psr\Container\ContainerInterface $c) {
     return $pdo;
 };
 
+// Recipe repository with db class dependency
 $container['recipe'] = function (\Psr\Container\ContainerInterface $c) {
     return new \Bbc\Features\Recipe($c->get('db'));
+};
+
+// query params processor to convert them into db query params array
+$container['params_processor'] = function (\Psr\Container\ContainerInterface $c) {
+    return new \Bbc\Features\SearchParamsProcessor();
 };
