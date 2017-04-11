@@ -16,12 +16,37 @@
     <body>
     <div class="container">
         <h1>BBC Features</h1>
-        <h3>Recipe</h3>
+        <h3><a href="/">Recipes</a> / Recipe</h3>
         <div id="app" class="container">
+            <!-- if there's no data -->
             <div class='col-md-12' v-if="!item">
                 <h4>Sorry, this recipe doesn't exist or may have been removed</h4>
             </div>
-            <h4 v-if="item">{{item.name}}</h4>
+            <!-- if data is presented -->
+            <div class="col-md-7" v-if="item">
+                <h4>{{item.name}}</h4>
+                <div class="col-md-12">
+                    <div class="row main-image">
+                        <img :src="'/' + image" border="0">
+                    </div>
+                    <div class="thumb-image col-md-4" v-for="imageItem in gallery">
+                        <img v-on:click="changeSrc(imageItem.image)" :src="'/' + imageItem.image" border="0">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="col-md-12">
+                    <h4>Ingredients</h4>
+                    <ul class="list-unstyled" v-if="ingredients">
+                        <li v-for="ingredient in ingredients">
+                            {{ingredient.name}} - {{ingredient.qty}} {{ingredient.qty_type}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <h4>Star feature</h4>
+                </div>
+            </div>
         </div>
     </div>
     </body>
