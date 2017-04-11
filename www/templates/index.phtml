@@ -34,7 +34,7 @@
                         <label for="ingredient">Cooking time</label>
                         <select v-model="filter.time" v-on:change="filterData" class="form-control">
                             <option value="" selected>Select cooking time</option>
-                            <option :value="time" v-for="time in buildTimeFilterData()" v-once>{{ time }} minutes</option>
+                            <option :value="time" v-for="time in buildTimeFilterData()" v-model:times>{{ time }} minutes</option>
                         </select>
                     </div>
                 </form>
@@ -44,6 +44,11 @@
             </div>
             <div class="row">
                 <recipe-item v-for="item in items" v-bind:recipe="item"></recipe-item>
+            </div>
+            <div class="row" v-if="pages.length > 1">
+                <ul class="pagination">
+                    <recipe-paginator v-for="page in pages" v-bind:page="page"></recipe-paginator>
+                </ul>
             </div>
         </div>
     </div>

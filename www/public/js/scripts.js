@@ -15,6 +15,21 @@ var application = function ($) {
             '</div>'
         });
 
+        // Vue component to print out recipe list
+        Vue.component('recipe-paginator', {
+            props: ['page'],
+            template: '<li>' +
+                '<a href="" v-on:click.prevent="setPage(page)"> ' +
+                    '{{ page + 1 }}' +
+                '</a>' +
+            '</li>',
+            methods: {
+                setPage: function (page) {
+                    this.$root.setPage(page);
+                }
+            }
+        });
+
         // Vue component to print out recipe time option list
         Vue.component('recipe-time-option', {
             props: ['recipe'],
@@ -34,7 +49,10 @@ var application = function ($) {
                     main: null,
                     ingredient: null,
                     time: null
-                }
+                },
+                times: null,
+                filterQs: null,
+                pages: null
             },
             created: function () {
                 this.fetchData();
@@ -43,10 +61,12 @@ var application = function ($) {
                 fetchData: function () {
                     // getting data from rest api endpoint
                     $.getJSON('/recipes', this.renderResponse.bind(this));
+                    this.fetchTimeData();
                 },
+                // ideally this should be some query string builder
                 filterData: function () {
                     // filter request
-                    var qs;
+                    var qs = null;
                     var recipeName = this.filter.main;
                     var ingredientName = this.filter.ingredient;
                     var time = this.filter.time;
@@ -69,24 +89,53 @@ var application = function ($) {
                     } else if (timeQuery) {
                         qs = timeQuery;
                     }
-                    $.getJSON('/recipes?'+qs, this.renderResponse.bind(this));
+                    if (this.limit) {
+                        qs = (qs) ? qs + '&limit=' + this.limit : 'limit=' + this.limit;
+                    }
+                    if (this.offset) {
+                        qs = (qs) ? qs + '&offset=' + this.offset : 'offset=' + this.offset;
+                    }
+                    this.filterQs = qs;
+                    $.getJSON('/recipes?'+this.filterQs, this.renderResponse.bind(this));
                 },
+                // render response by setting data to bound
                 renderResponse: function (recipes) {
                     this.items = recipes['items'];
                     this.limit = recipes['limit'];
                     this.offset = recipes['offset'];
                     this.total = recipes['total'];
+                    console.log(this.total);
+                    console.log(this.limit);
+                    // if (!this.pages) {
+                        this.pages = [];
+                        var lastPage = Math.ceil(this.total/this.limit);
+                        for (var i=0; i<lastPage; i++) {
+                            this.pages.push(i);
+                        }
+                    // }
                 },
+                // fetching data for time filter purposes/shouldn't request same endpoint on production env
+                fetchTimeData: function () {
+                    $.getJSON('/recipes?limit=0', function (recipes) {
+                        this.times = recipes['items'];
+                    }.bind(this));
+                },
+                // buidling time filter options
                 buildTimeFilterData: function () {
                     var filterData = [];
-                    for (var key in this.items) {
-                        if (this.items.hasOwnProperty(key)) {
-                            if (filterData.indexOf(this.items[key].time) < 0) {
-                                filterData.push(this.items[key].time);
+                    for (var key in this.times) {
+                        if (this.times.hasOwnProperty(key)) {
+                            if (filterData.indexOf(this.times[key].time) < 0) {
+                                filterData.push(this.times[key].time);
                             }
                         }
                     }
                     return filterData;
+                },
+                // setting page
+                setPage: function (page) {
+                    this.offset = Math.ceil(page*this.limit);
+                    this.filterData();
                 }
             }
         });

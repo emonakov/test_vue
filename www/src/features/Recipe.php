@@ -33,7 +33,7 @@ class Recipe
      */
     protected $filters;
 
-    protected $limit = 1;
+    protected $limit = 10;
 
     protected $offset = 0;
 
