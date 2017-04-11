@@ -50,9 +50,9 @@ var application = function ($) {
                     var recipeName = this.filter.main;
                     var ingredientName = this.filter.ingredient;
                     var time = this.filter.time;
-                    var recipeQuery = (recipeName) ? 'main_table[field]=name&main_table[value]=%' + encodeURIComponent(recipeName) +  '%&main_table[op]=like' : null;
-                    var ingredientQuery = (ingredientName) ? 'ingridient_table[field]=name&ingridient_table[value]=%' + encodeURIComponent(ingredientName) +  '%&ingridient_table[op]=like' : null;
-                    var timeQuery = (time) ? 'main_table[field]=time&main_table[value]=' + encodeURIComponent(time) : null;
+                    var recipeQuery = (recipeName) ? 'main_table[field]=name&main_table[value]=' + encodeURIComponent('%' + recipeName + '%') +  '&main_table[op]=like' : null;
+                    var ingredientQuery = (ingredientName) ? 'ingridient_table[field]=name&ingridient_table[value]=' + encodeURIComponent('%' + ingredientName + '%') +  '&ingridient_table[op]=like' : null;
+                    var timeQuery = (time) ? 'main_table[field]=time&main_table[value]=' + time : null;
                     if (recipeQuery) {
                         qs = recipeQuery;
                         if (ingredientQuery) {
