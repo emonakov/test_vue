@@ -33,9 +33,11 @@ class Recipe
      */
     protected $filters;
 
-    protected $limit;
+    protected $limit = 1;
 
-    protected $offset;
+    protected $offset = 0;
+
+    protected $itemsReturned;
 
     public function __construct(\PDO $db)
     {
@@ -60,6 +62,7 @@ class Recipe
         foreach ($items as $item) {
             $this->items[$item['id']] = new Model\Recipe($this, $item);
         }
+        $this->itemsReturned = count($this->items);
         return (array)$this->items;
     }
 
@@ -140,6 +143,21 @@ class Recipe
     {
         $query = 'SELECT count(*) FROM recipe as main_table';
         return $this->db->query($query)->fetchColumn();
+    }
+
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    public function getItemsReturned()
+    {
+        return $this->itemsReturned;
     }
 
     /**

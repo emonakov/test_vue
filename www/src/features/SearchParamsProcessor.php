@@ -70,5 +70,4 @@ class SearchParamsProcessor
         }
         return true;
     }
-
 }

@@ -10,7 +10,13 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
     $recipeRepository->addFilter($params);
     $recipes = $recipeRepository->getAllItems();
     $total = $recipeRepository->getTotal();
-    return $response->withJson(['items' => $recipes, 'limit' => $params['limit'], 'offset' => $params['offset'], 'total' => $total]);
+    return $response->withJson([
+        'items' => $recipes,
+        'limit' => $recipeRepository->getLimit(),
+        'offset' => $recipeRepository->getOffset(),
+        'total' => $total,
+        'returned' => $recipeRepository->getItemsReturned()
+    ]);
 });
 
 // Endpoint for single recipe
