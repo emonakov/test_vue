@@ -39,16 +39,18 @@
                     </div>
                 </form>
             </div>
-            <div class='col-md-12' v-if="total > 0 && items.length < 1">
-                <h4>Sorry, nothing matched your filter term</h4>
-            </div>
-            <div class="row">
-                <recipe-item v-for="item in items" v-bind:recipe="item"></recipe-item>
-            </div>
-            <div class="row" v-if="pages.length > 1">
-                <ul class="pagination">
-                    <recipe-paginator v-for="page in pages" v-bind:page="page"></recipe-paginator>
-                </ul>
+            <div class="col-md-12">
+                <div class='col-md-12' v-if="total > 0 && items.length < 1">
+                    <h4>Sorry, nothing matched your filter term</h4>
+                </div>
+                <div class="row">
+                    <recipe-item v-for="item in items" v-bind:recipe="item"></recipe-item>
+                </div>
+                <div class="row" v-if="pages.length > 1">
+                    <ul class="pagination">
+                        <recipe-paginator v-for="page in pages" v-bind:page="page"></recipe-paginator>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

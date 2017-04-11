@@ -3,7 +3,7 @@ var application = function ($) {
         // Vue component to print out recipe list
         Vue.component('recipe-item', {
             props: ['recipe'],
-            template: '<div class="col-md-4">' +
+            template: '<div class="col-md-4 recipe">' +
                 '<a :href="/getrecipe/ +  recipe.id"> ' +
                     '<h4>{{ recipe.name }}</h4>' +
                     '<p><strong>Cooking time: {{ recipe.time }}</strong></p>' +
