@@ -19,6 +19,26 @@
             <div class='col-md-12' v-if="total < 1">
                 <h4>Sorry, we currently have no recipes for you</h4>
             </div>
+            <div class="col-md-12 top-bottom-buffer">
+                <h4>Filters</h4>
+                <form class="form-inline" v-if="total > 0">
+                    <div class="form-group">
+                        <label for="Recipe">Recipe</label>
+                        <input v-model="filter.main" v-on:change="filterData" type="text" class="form-control" id="recipe" placeholder="Lemon Chicken">
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredient">Ingredient</label>
+                        <input v-model="filter.ingredient" v-on:change="filterData" type="text" class="form-control" id="ingredient" placeholder="Mustard">
+                    </div>
+                    <div class="form-group">
+                        <label for="ingredient">Cooking time</label>
+                        <select v-model="filter.time" v-on:change="filterData" class="form-control">
+                            <option value="" selected>Select cooking time</option>
+                            <option :value="time" v-for="time in buildTimeFilterData()" v-once>{{ time }} minutes</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
             <div class='col-md-12' v-if="total > 0 && items.length < 1">
                 <h4>Sorry, nothing matched your filter term</h4>
             </div>
