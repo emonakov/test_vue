@@ -10,7 +10,13 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
     $recipeRepository = $this->get('recipe');
     // passing query params to filter method in repository class
     $recipeRepository->addFilter($params);
-    $recipes = $recipeRepository->getAllItems();
+    $error = false;
+    try {
+        $recipes = $recipeRepository->getAllItems();
+    } catch (\Exception $e) {
+        $recipes = [];
+        $error = $e->getMessage();
+    }
     $total = $recipeRepository->getTotal();
     return $response->withJson([
         'items' => $recipes,
@@ -18,7 +24,8 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
         'offset' => $recipeRepository->getOffset(),
         'total' => $total,
         // imitating current logged in user Joe
-        'user' => 1
+        'user' => 1,
+        'error' => $error
     ]);
 });
 

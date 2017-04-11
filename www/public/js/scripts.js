@@ -53,7 +53,11 @@ var application = function ($) {
                 times: null,
                 filterQs: null,
                 pages: [],
-                stars: null
+                stars: [],
+                // flag to show or not message about empty stars
+                starsFilter: false,
+                // flag to filter by stars
+                filterStars: false
             },
             created: function () {
                 this.fetchData();
@@ -65,7 +69,8 @@ var application = function ($) {
                     this.fetchTimeData();
                 },
                 // ideally this should be some query string builder
-                filterData: function (stars) {
+                filterData: function () {
+                    this.starsFilter = false;
                     // filter request
                     var qs = null;
                     var recipeName = this.filter.main;
@@ -96,8 +101,10 @@ var application = function ($) {
                     if (this.offset) {
                         qs = (qs) ? qs + '&offset=' + this.offset : 'offset=' + this.offset;
                     }
-                    if (stars) {
+                    if (this.filterStars) {
                         qs = 'main_table[field]=id&main_table[value]=' + encodeURIComponent(this.stars.join(',')) +  '&main_table[op]=in';
+                        this.starsFilter = true;
+                        this.filterStars = false;
                     }
                     this.filterQs = qs;
                     $.getJSON('/recipes?'+this.filterQs, this.renderResponse.bind(this));
@@ -143,7 +150,8 @@ var application = function ($) {
                     promise.done(function (response) {
                         if (!response.error) {
                             this.stars = response.stars;
-                            this.filterData(true);
+                            this.filterStars = true;
+                            this.filterData();
                         }
                     }.bind(this));
                 }

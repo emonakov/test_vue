@@ -43,8 +43,11 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <div class='col-md-12' v-if="total > 0 && items.length < 1">
+                <div class='col-md-12' v-if="total > 0 && items.length < 1 && !starsFilter">
                     <h4>Sorry, nothing matched your filter term</h4>
+                </div>
+                <div class='col-md-12' v-if="total > 0 && items.length < 1 && starsFilter">
+                    <h4>Sorry, you don't currently have any starred recipes, get started by starring recipes you like</h4>
                 </div>
                 <div class="row">
                     <recipe-item v-for="item in items" v-bind:recipe="item"></recipe-item>
