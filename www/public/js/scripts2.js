@@ -10,15 +10,17 @@ var application = function ($) {
                 ingredients: null,
                 gallery: null
             },
+            // initial request to get data
             created: function () {
                 this.fetchData();
             },
             methods: {
+                // fetch recipe data
                 fetchData: function () {
                     // getting data from rest api endpoint
                     $.getJSON('/recipe/' + recipeId, this.renderResponse.bind(this));
                 },
-                // render response by setting data to bound
+                // render response by setting data to bound parameters
                 renderResponse: function (recipe) {
                     this.item = recipe;
                     if (!this.item.gallery[0]) {
@@ -29,6 +31,7 @@ var application = function ($) {
                     this.gallery = recipe.gallery;
                     this.ingredients = recipe.ingredients;
                 },
+                // changing big image src
                 changeSrc: function (src) {
                     this.image = src;
                 }

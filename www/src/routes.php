@@ -4,9 +4,11 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
     /** @var \Slim\Container $this */
     /** @var \Bbc\Features\SearchParamsProcessor $paramsProcessor */
     $paramsProcessor = $this->get('params_processor');
+    // processing query params
     $params = $paramsProcessor->processParams($request->getParams());
     /** @var \Bbc\Features\Recipe $recipeRepository */
     $recipeRepository = $this->get('recipe');
+    // passing query params to filter method in repository class
     $recipeRepository->addFilter($params);
     $recipes = $recipeRepository->getAllItems();
     $total = $recipeRepository->getTotal();
@@ -15,7 +17,8 @@ $app->get('/recipes[/]', function (\Slim\Http\Request $request, \Slim\Http\Respo
         'limit' => $recipeRepository->getLimit(),
         'offset' => $recipeRepository->getOffset(),
         'total' => $total,
-        'returned' => $recipeRepository->getItemsReturned()
+        // imitating current logged in user Joe
+        'user' => 1
     ]);
 });
 
