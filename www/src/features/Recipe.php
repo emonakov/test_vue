@@ -84,7 +84,11 @@ class Recipe
         foreach ($filter as $table => $params) {
             $queryConcat = [];
             foreach ($params['field'] as $index => $param) {
-                $queryConcat[] = "$table.$param {$params['op'][$index]} '{$params['value'][$index]}'";
+                if ($params['op'][$index] == 'in') {
+                    $queryConcat[] = "$table.$param {$params['op'][$index]} {$params['value'][$index]}";
+                } else {
+                    $queryConcat[] = "$table.$param {$params['op'][$index]} '{$params['value'][$index]}'";
+                }
             }
             $this->filters[$table] = $queryConcat;
         }

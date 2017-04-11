@@ -38,6 +38,9 @@
                         </select>
                     </div>
                 </form>
+                <div class="col-md-12 top-bottom-buffer">
+                    <button type="button" class="btn btn-success" v-on:click="getStarred">Show starred recipes</button>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class='col-md-12' v-if="total > 0 && items.length < 1">

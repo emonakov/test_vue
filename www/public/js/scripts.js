@@ -52,7 +52,8 @@ var application = function ($) {
                 },
                 times: null,
                 filterQs: null,
-                pages: null
+                pages: [],
+                stars: null
             },
             created: function () {
                 this.fetchData();
@@ -64,7 +65,7 @@ var application = function ($) {
                     this.fetchTimeData();
                 },
                 // ideally this should be some query string builder
-                filterData: function () {
+                filterData: function (stars) {
                     // filter request
                     var qs = null;
                     var recipeName = this.filter.main;
@@ -94,6 +95,9 @@ var application = function ($) {
                     }
                     if (this.offset) {
                         qs = (qs) ? qs + '&offset=' + this.offset : 'offset=' + this.offset;
+                    }
+                    if (stars) {
+                        qs = 'main_table[field]=id&main_table[value]=' + encodeURIComponent(this.stars.join(',')) +  '&main_table[op]=in';
                     }
                     this.filterQs = qs;
                     $.getJSON('/recipes?'+this.filterQs, this.renderResponse.bind(this));
@@ -132,6 +136,16 @@ var application = function ($) {
                 setPage: function (page) {
                     this.offset = Math.ceil(page*this.limit);
                     this.filterData();
+                },
+                // get starred list
+                getStarred: function () {
+                    var promise = $.getJSON('/stars');
+                    promise.done(function (response) {
+                        if (!response.error) {
+                            this.stars = response.stars;
+                            this.filterData(true);
+                        }
+                    }.bind(this));
                 }
             }
         });

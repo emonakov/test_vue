@@ -44,6 +44,9 @@ class SearchParamsProcessor
                 foreach ($fields as $index => $field) {
                     $data[$key]['field'][$index] = $field;
                     $data[$key]['value'][$index] = $values[$index];
+                    if ($param['op'] == 'in' && count($fields) < count($values)) {
+                        $data[$key]['value'][$index] = "({$param['value']})";
+                    }
                     $data[$key]['op'][$index] = (isset($ops[$index])) ? $ops[$index] : '=';
                 }
             }
