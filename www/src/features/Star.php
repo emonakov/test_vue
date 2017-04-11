@@ -48,7 +48,7 @@ class Star
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':user_id', $userId);
         $stmt->execute();
-        $data = $stmt->fetchAll();
+        $data = $stmt->fetchAll(\PDO::FETCH_COLUMN);
         return (array) $data;
     }
 
