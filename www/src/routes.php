@@ -41,3 +41,50 @@ $app->get('/', function (\Slim\Http\Request $request, \Slim\Http\Response $respo
 $app->get('/getrecipe/{id}', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
     return $this->renderer->render($response, 'recipe.phtml', $args);
 });
+
+// Endpoint for stars list
+$app->get('/stars', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    $userId = 1;
+    /** @var \Bbc\Features\Star $star */
+    $star = $this->get('star');
+    $data = [];
+    try {
+        $data['stars'] = $star->getStars($userId);
+    } catch (\Exception $e) {
+        $data['error'] = true;
+        $data['message'] = $e->getMessage();
+    }
+    return $response->withJson($data);
+});
+
+// Endpoint for adding stars
+$app->post('/stars', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    $userId = 1;
+    $params = $request->getParams();
+    /** @var \Bbc\Features\Star $star */
+    $star = $this->get('star');
+    $data = [];
+    try {
+        $data['stars'] = $star->addStar($params['recipe_id'], $userId);
+    } catch (\Exception $e) {
+        $data['error'] = true;
+        $data['message'] = $e->getMessage();
+    }
+    return $response->withJson($data);
+});
+
+// Endpoint for deleting stars
+$app->delete('/stars', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    $userId = 1;
+    $data = [];
+    $params = $request->getParams();
+    /** @var \Bbc\Features\Star $star */
+    $star = $this->get('star');
+    try {
+        $data['stars'] = $star->deleteStar($params['recipe_id'], $userId);
+    } catch (\Exception $e) {
+        $data['error'] = true;
+        $data['message'] = $e->getMessage();
+    }
+    return $response->withJson($data);
+});
