@@ -29,7 +29,12 @@ $app->get('/recipe/{id}', function (\Slim\Http\Request $request, \Slim\Http\Resp
     return $response->withJson($recipe);
 });
 
-// Endpoint for single recipe
+// Endpoint for recipe list
 $app->get('/', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
     return $this->renderer->render($response, 'index.phtml', $args);
+});
+
+// Endpoint for recipe single item
+$app->get('/getrecipe/{id}', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    return $this->renderer->render($response, 'recipe.phtml', $args);
 });

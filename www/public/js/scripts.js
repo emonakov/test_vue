@@ -104,15 +104,11 @@ var application = function ($) {
                     this.limit = recipes['limit'];
                     this.offset = recipes['offset'];
                     this.total = recipes['total'];
-                    console.log(this.total);
-                    console.log(this.limit);
-                    // if (!this.pages) {
-                        this.pages = [];
-                        var lastPage = Math.ceil(this.total/this.limit);
-                        for (var i=0; i<lastPage; i++) {
-                            this.pages.push(i);
-                        }
-                    // }
+                    this.pages = [];
+                    var lastPage = Math.ceil(this.total/this.limit);
+                    for (var i=0; i<lastPage; i++) {
+                        this.pages.push(i);
+                    }
                 },
                 // fetching data for time filter purposes/shouldn't request same endpoint on production env
                 fetchTimeData: function () {
