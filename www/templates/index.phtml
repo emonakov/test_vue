@@ -19,7 +19,7 @@
             <div class='col-md-12' v-if="total < 1">
                 <h4>Sorry, we currently have no recipes for you</h4>
             </div>
-            <div class="col-md-12 top-bottom-buffer">
+            <div class="col-md-12 top-bottom-buffer" v-if="total > 1">
                 <h4>Filters</h4>
                 <form class="form-inline" v-if="total > 0">
                     <div class="form-group">
@@ -38,7 +38,7 @@
                         </select>
                     </div>
                 </form>
-                <div class="col-md-12 top-bottom-buffer">
+                <div class="col-md-12 top-bottom-buffer" v-if="total > 1">
                     <button type="button" class="btn btn-success" v-on:click="getStarred">Show starred recipes</button>
                 </div>
             </div>
