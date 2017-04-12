@@ -2,6 +2,11 @@
 
 namespace Bbc\Features\Model;
 
+/**
+ * Class Recipe
+ *
+ * @package Bbc\Features\Model
+ */
 class Recipe implements \JsonSerializable
 {
     /**
@@ -10,6 +15,8 @@ class Recipe implements \JsonSerializable
     protected $_data;
 
     /**
+     * Repository injection so the model is aware of its additional methods
+     *
      * @var \Bbc\Features\Recipe
      */
     protected $repository;

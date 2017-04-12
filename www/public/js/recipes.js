@@ -45,20 +45,25 @@ var application = function ($) {
                 limit: null,
                 offset: null,
                 total: null,
+                // filter data
                 filter: {
                     main: null,
                     ingredient: null,
                     time: null
                 },
                 times: null,
+                // filter query string for complex filters
                 filterQs: null,
+                // number of pages for pagination list
                 pages: [],
+                // stars data for filtering
                 stars: [],
                 // flag to show or not message about empty stars
                 starsFilter: false,
                 // flag to filter by stars
                 filterStars: false
             },
+            // initial page loading
             created: function () {
                 this.fetchData();
             },
@@ -66,6 +71,7 @@ var application = function ($) {
                 fetchData: function () {
                     // getting data from rest api endpoint
                     $.getJSON('/recipes', this.renderResponse.bind(this));
+                    // getting cooking time data
                     this.fetchTimeData();
                 },
                 // ideally this should be some query string builder
@@ -116,6 +122,7 @@ var application = function ($) {
                     this.offset = recipes['offset'];
                     this.total = recipes['total'];
                     this.pages = [];
+                    // calculating pages range
                     var lastPage = Math.ceil(this.total/this.limit);
                     for (var i=0; i<lastPage; i++) {
                         this.pages.push(i);
@@ -139,7 +146,7 @@ var application = function ($) {
                     }
                     return filterData;
                 },
-                // setting page
+                // setting page number and fetching page data
                 setPage: function (page) {
                     this.offset = Math.ceil(page*this.limit);
                     this.filterData();

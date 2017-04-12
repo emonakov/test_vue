@@ -2,6 +2,11 @@
 
 namespace Bbc\Features;
 
+/**
+ * Class Recipe
+ *
+ * @package Bbc\Features
+ */
 class Recipe
 {
     /**
@@ -39,6 +44,11 @@ class Recipe
 
     protected $itemsReturned;
 
+    /**
+     * Recipe constructor.
+     *
+     * @param \PDO $db
+     */
     public function __construct(\PDO $db)
     {
         $this->db = $db;
@@ -59,6 +69,7 @@ class Recipe
         }
         $stmt = $this->prepareSqlStatement($this->query, $this->params);
         $items = $stmt->fetchAll();
+        // build recipe models list
         foreach ($items as $item) {
             $this->items[$item['id']] = new Model\Recipe($this, $item);
         }
@@ -84,10 +95,12 @@ class Recipe
         foreach ($filter as $table => $params) {
             $queryConcat = [];
             foreach ($params['field'] as $index => $param) {
+                $q = "$table.$param {$params['op'][$index]}";
+                // if this is a in filter there's no need to escaping values
                 if ($params['op'][$index] == 'in') {
-                    $queryConcat[] = "$table.$param {$params['op'][$index]} {$params['value'][$index]}";
+                    $queryConcat[] = $q . " {$params['value'][$index]}";
                 } else {
-                    $queryConcat[] = "$table.$param {$params['op'][$index]} '{$params['value'][$index]}'";
+                    $queryConcat[] = $q . " '{$params['value'][$index]}'";
                 }
             }
             $this->filters[$table] = $queryConcat;
@@ -143,25 +156,35 @@ class Recipe
         return $this;
     }
 
+    /**
+     * Gets total number of records
+     *
+     * @return string
+     */
     public function getTotal()
     {
         $query = 'SELECT count(*) FROM recipe as main_table';
         return $this->db->query($query)->fetchColumn();
     }
 
+    /**
+     * Gets current offset for the query
+     *
+     * @return int
+     */
     public function getOffset()
     {
         return $this->offset;
     }
 
+    /**
+     * Gets current limit for the query
+     *
+     * @return int
+     */
     public function getLimit()
     {
         return $this->limit;
-    }
-
-    public function getItemsReturned()
-    {
-        return $this->itemsReturned;
     }
 
     /**
@@ -174,6 +197,7 @@ class Recipe
      */
     protected function prepareSqlStatement($query, $params = [], $main = true)
     {
+        // if this is a main query for the recipe listing
         if ($main) {
             $query .= ' GROUP BY id';
             if ($this->limit) {

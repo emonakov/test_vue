@@ -33,7 +33,7 @@ $container['recipe'] = function (\Psr\Container\ContainerInterface $c) {
     return new \Bbc\Features\Recipe($c->get('db'));
 };
 
-// Recipe repository with db class dependency
+// Stars repository with db class dependency
 $container['star'] = function (\Psr\Container\ContainerInterface $c) {
     return new \Bbc\Features\Star($c->get('db'));
 };
