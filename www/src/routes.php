@@ -46,6 +46,7 @@ $app->get('/', function (\Slim\Http\Request $request, \Slim\Http\Response $respo
 
 // Endpoint for recipe single item
 $app->get('/getrecipe/{id}', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+    $args['user_id'] = 1;
     return $this->renderer->render($response, 'recipe.phtml', $args);
 });
 
@@ -81,14 +82,13 @@ $app->post('/stars', function (\Slim\Http\Request $request, \Slim\Http\Response 
 });
 
 // Endpoint for deleting stars
-$app->delete('/stars', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
+$app->delete('/stars/{recipe_id}', function (\Slim\Http\Request $request, \Slim\Http\Response $response, $args) {
     $userId = 1;
     $data = [];
-    $params = $request->getParams();
     /** @var \Bbc\Features\Star $star */
     $star = $this->get('star');
     try {
-        $data['stars'] = $star->deleteStar($params['recipe_id'], $userId);
+        $data['stars'] = $star->deleteStar($args['recipe_id'], $userId);
     } catch (\Exception $e) {
         $data['error'] = true;
         $data['message'] = $e->getMessage();

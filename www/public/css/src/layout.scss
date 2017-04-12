@@ -27,3 +27,9 @@ $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
     cursor: pointer;
   }
 }
+.stars {
+  img {
+    max-width: 50px;
+    cursor: pointer;
+  }
+}

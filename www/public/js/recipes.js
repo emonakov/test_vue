@@ -149,6 +149,8 @@ var application = function ($) {
                     var promise = $.getJSON('/stars');
                     promise.done(function (response) {
                         if (!response.error) {
+                            // if no error set stars to the app object,
+                            // set filter flag to true and filter by stars
                             this.stars = response.stars;
                             this.filterStars = true;
                             this.filterData();

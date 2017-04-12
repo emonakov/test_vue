@@ -8,11 +8,16 @@ var application = function ($) {
                 item: null,
                 image: null,
                 ingredients: null,
-                gallery: null
+                gallery: null,
+                stars: [],
+                starred: false,
+                starOff: 'media/recipe/no_star.png',
+                starOn: 'media/recipe/star.png'
             },
             // initial request to get data
             created: function () {
                 this.fetchData();
+                this.getStarred();
             },
             methods: {
                 // fetch recipe data
@@ -34,6 +39,34 @@ var application = function ($) {
                 // changing big image src
                 changeSrc: function (src) {
                     this.image = src;
+                },
+                renderStars: function (response) {
+                    console.log(response);
+                    if (!response.error) {
+                        this.stars = response.stars;
+                        this.starred = this.stars.indexOf(recipeId) > -1;
+                    }
+                },
+                // get starred list
+                getStarred: function () {
+                    $.getJSON('/stars', this.renderStars.bind(this));
+                },
+                deleteStar: function () {
+
+                },
+                addStar: function () {
+                    var request = $.post('/stars', {
+                        recipe_id: recipeId
+                    }, 'json');
+                    request.done(this.renderStars.bind(this));
+                },
+                deleteStar: function () {
+                    var request = $.ajax({
+                        url: '/stars/' + recipeId,
+                        type: 'DELETE',
+                        contentType: 'json'
+                    });
+                    request.done(this.renderStars.bind(this));
                 }
             }
         });

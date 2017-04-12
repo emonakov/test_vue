@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-if="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8"/>
         <title>BBC Recipe system</title>
@@ -8,9 +8,10 @@
         <script src="/vendor/jquery/dist/jquery.min.js"></script>
         <script src="/vendor/bootstrap-sass/assets/javascripts/bootstrap.min.js"></script>
         <script src="/vendor/vue/dist/vue.min.js"></script>
-        <script src="/js/scripts2.js"></script>
+        <script src="/js/recipe.js"></script>
         <script type="text/javascript">
             var recipeId = '<?= $id ?>';
+            var userId = '<?= $user_id ?>';
         </script>
     </head>
     <body>
@@ -44,8 +45,15 @@
                             </li>
                         </ul>
                     </div>
+                    <!-- this is stars -->
                     <div class="col-md-12">
                         <h4>Star feature</h4>
+                        <div class="container stars">
+                            <div class="col-md-1">
+                                <img :src="'/' + starOff" alt="" class="star-off" v-if="!starred" v-on:click="addStar">
+                                <img :src="'/' + starOn" alt="" class="star-on" v-if="starred" v-on:click="deleteStar">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
